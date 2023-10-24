@@ -21,22 +21,31 @@ var resultHistorial = {
 //   }
 
 const getDataFromServer = async () => {
-    const firsStepResponse = await fetch("https://candidates.mifiel.com/api/v1/users", {
+    try{
+        const data = JSON.stringify({
+            name: "Liliana Aguirre",
+            email: "aguirre.wl@gmail.com"
+         });
+        const firsStepResponse = await fetch("https://candidates.mifiel.com/api/v1/users",{
         method: "POST",
-        body: JSON.stringify({
-           "name": "Liliana Aguirre",
-           "email": "aguirre.wl@gmail.com"
-        }),
-        headers: {"Content-Type": "application/json; charset=UTF-8"}
-      })
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/json",
+          },
+        body:data,
+      });
      let firsStepData = await firsStepResponse.json();
      resultHistorial.id= firsStepData.id;
-     resultHistorial.next_challenge.challenge = firsStepData.next_challenge.challenge
+     resultHistorial.next_challenge.challenge = firsStepData.next_challenge.challenge;
      hash256Process();
+
+    }catch (error){
+        console.log("error: ",error)
     }
+}
 
 const putDataChallengePow= async () =>{
-   const finalStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/pow `, {
+   const finalStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/pow`,{
        method: "PUT",
        body: JSON.stringify({result: resultHistorial.next_challenge.nonce
        }),
