@@ -9,16 +9,25 @@ var resultHistorial = {
      noncePlusSha256:""
     }
 } ;
+
+//Request Demo
+// const getDataFromServer = async () => {
+//   const firsStepResponse = await fetch("https://pokeapi.co/api/v2/pokemon/ditto", {
+//       method: "GET",
+//     })
+//    let firsStepData = await firsStepResponse.json();
+//     console.log(firsStepData)
+
+//   }
+
 const getDataFromServer = async () => {
-    const firsStepResponse = await fetch("http://localhost:4000/api/v1/users", {
+    const firsStepResponse = await fetch("https://candidates.mifiel.com/api/v1/users", {
         method: "POST",
         body: JSON.stringify({
-           name: "Liliana Aguirre",
-           email: "aguirre.wl@gmail.com"
+           "name": "Liliana Aguirre",
+           "email": "aguirre.wl@gmail.com"
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let firsStepData = await firsStepResponse.json();
      resultHistorial.id= firsStepData.id;
@@ -27,13 +36,11 @@ const getDataFromServer = async () => {
     }
 
 const putDataChallengePow= async () =>{
-   const finalStepDataToSend = await fetch(`api/v1/users/${resultHistorial.id}/challenge/pow `, {
+   const finalStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/pow `, {
        method: "PUT",
        body: JSON.stringify({result: resultHistorial.next_challenge.nonce
        }),
-       headers: {
-        "Content-type": "application/json; charset=UTF-8"
-       }
+       headers: {"Content-Type": "application/json; charset=UTF-8"}
        })
       let finalStepResult = await finalStepDataToSend.json();
      console.log(finalStepResult)
@@ -46,9 +53,7 @@ const pOwProcess = async () =>{
             sha256Message:resultHistorial.next_challenge.challenge,
             difficulty:resultHistorial.next_challenge.difficulty,
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let thirdStepData = await thirdStepDataToSend.json();
      resultHistorial.next_challenge.nonce = thirdStepData.next_challenge.nonce;
@@ -56,13 +61,11 @@ const pOwProcess = async () =>{
 }
 
 const putDataSha256= async () =>{
-    const secondStepDataToSend = await fetch(`/api/v1/users/${resultHistorial.id}/challenge/digest`, {
+    const secondStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/digest`, {
         method: "PUT",
         body: JSON.stringify({result: resultHistorial.next_challenge.sha256Message
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let secondStepResult = await secondStepDataToSend.json();
     resultHistorial.next_challenge.difficulty = secondStepResult.next_challenge.difficulty;
@@ -75,9 +78,7 @@ const hash256Process = async () =>{
         method: "POST",
         body: JSON.stringify({message: resultHistorial.next_challenge.challenge
         }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let secondStepData = await secondStepResponse.json();
      resultHistorial.next_challenge.sha256Message = secondStepData;

@@ -1,6 +1,6 @@
 const express = require('express');
 const { createHash } = require('crypto');
-
+const cors = require('cors');
 const path = require('path');
 
 const app = express();
@@ -22,8 +22,8 @@ result(JSON.stringify(nonce));
 }
 
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(cors());
 
 app.post('/api/v1/users', (req, res) => {
     res.status(200).json({id:1,next_challenge: {
