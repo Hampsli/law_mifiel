@@ -24,6 +24,19 @@ const getDataFromServer = async () => {
      resultHistorial.id= firsStepData.id;
      resultHistorial.next_challenge.challenge = firsStepData.next_challenge.challenge
      hash256Process();
+    }
+
+const putDataChallengePow= async () =>{
+   const finalStepDataToSend = await fetch(`api/v1/users/${resultHistorial.id}/challenge/pow `, {
+       method: "PUT",
+       body: JSON.stringify({result: resultHistorial.next_challenge.nonce
+       }),
+       headers: {
+        "Content-type": "application/json; charset=UTF-8"
+       }
+       })
+      let finalStepResult = await finalStepDataToSend.json();
+     console.log(finalStepResult)
 }
 
 const pOwProcess = async () =>{
@@ -38,7 +51,8 @@ const pOwProcess = async () =>{
         }
       })
      let thirdStepData = await thirdStepDataToSend.json();
-     console.log(thirdStepData);
+     resultHistorial.next_challenge.nonce = thirdStepData.next_challenge.nonce;
+     putDataChallengePow();
 }
 
 const putDataSha256= async () =>{

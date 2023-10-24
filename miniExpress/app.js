@@ -18,7 +18,7 @@ const calculateNonce = (data,result) =>{
     nonce++;
     validSha256 = calculateHash256(`${originalMessage}${nonce}`);
   }
-result(JSON.stringify(validSha256));
+result(JSON.stringify(nonce));
 }
 
 app.use(express.json());
@@ -36,7 +36,9 @@ app.post('/api/v1/createSha256/message', (req, res) => {
 
 app.post('/api/v1/calculateNonce/pow', (req, res) => {
   calculateNonce(req.body, function(data) {
-   console.log('inside post'+ data);
+    res.status(200).json({next_challenge: {
+      nonce: data,
+    } })
    });
 })
 
@@ -48,13 +50,7 @@ app.put('/api/v1/users/:id/challenge/digest', (req, res) => {
 })
 
 app.put('/api/v1/users/:id/challenge/pow', (req, res) => {
-  console.log(req);
-    let data = req.body;
-    res.send('Data received' + JSON.stringify(data));
-    res.status(200).json({next_challenge: {
-      difficulty: 3,
-      challenge: 'Hello, world!'
-    } })
+    res.status(200).json("Done")
 })
 
 app.listen(port, () => {
