@@ -6,6 +6,21 @@ const path = require('path');
 const app = express();
 const port = 4000;
 
+const calculateHash256 = (hash) =>{
+  return createHash('sha256').update(hash).digest('hex');
+}
+
+const calculateNonce = (data,result) =>{
+  let nonce = 0;
+  let originalMessage = data.sha256Message
+  let validSha256 = calculateHash256(originalMessage);
+  while (validSha256.substring(0, data.difficulty) !== Array(data.difficulty + 1).join("0")) {
+    nonce++;
+    validSha256 = calculateHash256(`${originalMessage}${nonce}`);
+  }
+result(JSON.stringify(validSha256));
+}
+
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '/public')));
@@ -16,7 +31,13 @@ app.post('/api/v1/users', (req, res) => {
     } })
 })
 app.post('/api/v1/createSha256/message', (req, res) => {
-  res.status(200).json(createHash('sha256').update(req.body.message).digest('hex'));
+  res.status(200).json(calculateHash256(req.body.message));
+})
+
+app.post('/api/v1/calculateNonce/pow', (req, res) => {
+  calculateNonce(req.body, function(data) {
+   console.log('inside post'+ data);
+   });
 })
 
 app.put('/api/v1/users/:id/challenge/digest', (req, res) => {

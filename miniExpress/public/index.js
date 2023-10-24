@@ -26,6 +26,21 @@ const getDataFromServer = async () => {
      hash256Process();
 }
 
+const pOwProcess = async () =>{
+    const thirdStepDataToSend = await fetch(`/api/v1/calculateNonce/pow`, {
+        method: "POST",
+        body: JSON.stringify({
+            sha256Message:resultHistorial.next_challenge.challenge,
+            difficulty:resultHistorial.next_challenge.difficulty,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+     let thirdStepData = await thirdStepDataToSend.json();
+     console.log(thirdStepData);
+}
+
 const putDataSha256= async () =>{
     const secondStepDataToSend = await fetch(`/api/v1/users/${resultHistorial.id}/challenge/digest`, {
         method: "PUT",
@@ -54,8 +69,6 @@ const hash256Process = async () =>{
      resultHistorial.next_challenge.sha256Message = secondStepData;
      putDataSha256();
 }
-const pOwProcess = async () =>{
 
-}
 document.getElementById("btn").onclick = getDataFromServer();  
 
