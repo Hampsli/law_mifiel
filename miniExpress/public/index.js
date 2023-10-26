@@ -21,35 +21,31 @@ var resultHistorial = {
 //   }
 
 const getDataFromServer = async () => {
-    try{
-        const data = JSON.stringify({
-            name: "Liliana Aguirre",
-            email: "aguirre.wl@gmail.com"
-         });
-        const firsStepResponse = await fetch("https://candidates.mifiel.com/api/v1/users",{
+    const data = JSON.stringify({
+        name: "Liliana Aguirre",
+        email: "aguirre.wl@gmail.com"
+    });
+        const firsStepResponse = await fetch("https://cors-anywhere.herokuapp.com/https://candidates.mifiel.com/api/v1/users",{
         method: "POST",
-        mode: "no-cors",
         headers: {
-            "Content-Type": "application/json",
-          },
-        body:data,
+        'Accept': 'application/json',
+        "Content-Type": "application/json"},
+        body:data
       });
      let firsStepData = await firsStepResponse.json();
      resultHistorial.id= firsStepData.id;
      resultHistorial.next_challenge.challenge = firsStepData.next_challenge.challenge;
      hash256Process();
-
-    }catch (error){
-        console.log("error: ",error)
-    }
 }
 
 const putDataChallengePow= async () =>{
-   const finalStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/pow`,{
+   const finalStepDataToSend = await fetch(`https://cors-anywhere.herokuapp.com/https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/pow`,{
        method: "PUT",
+       headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"},
        body: JSON.stringify({result: resultHistorial.next_challenge.nonce
        }),
-       headers: {"Content-Type": "application/json; charset=UTF-8"}
        })
       let finalStepResult = await finalStepDataToSend.json();
      console.log(finalStepResult)
@@ -58,11 +54,13 @@ const putDataChallengePow= async () =>{
 const pOwProcess = async () =>{
     const thirdStepDataToSend = await fetch(`/api/v1/calculateNonce/pow`, {
         method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json"},
         body: JSON.stringify({
             sha256Message:resultHistorial.next_challenge.challenge,
             difficulty:resultHistorial.next_challenge.difficulty,
         }),
-        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let thirdStepData = await thirdStepDataToSend.json();
      resultHistorial.next_challenge.nonce = thirdStepData.next_challenge.nonce;
@@ -70,11 +68,13 @@ const pOwProcess = async () =>{
 }
 
 const putDataSha256= async () =>{
-    const secondStepDataToSend = await fetch(`https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/digest`, {
+    const secondStepDataToSend = await fetch(`https://cors-anywhere.herokuapp.com/https://candidates.mifiel.com/api/v1/users/${resultHistorial.id}/challenge/digest`, {
         method: "PUT",
+        headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json"},
         body: JSON.stringify({result: resultHistorial.next_challenge.sha256Message
         }),
-        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let secondStepResult = await secondStepDataToSend.json();
     resultHistorial.next_challenge.difficulty = secondStepResult.next_challenge.difficulty;
@@ -85,9 +85,11 @@ const putDataSha256= async () =>{
 const hash256Process = async () =>{
     const secondStepResponse = await fetch(`http://localhost:4000/api/v1/createSha256/message`, {
         method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            "Content-Type": "application/json"},
         body: JSON.stringify({message: resultHistorial.next_challenge.challenge
         }),
-        headers: {"Content-Type": "application/json; charset=UTF-8"}
       })
      let secondStepData = await secondStepResponse.json();
      resultHistorial.next_challenge.sha256Message = secondStepData;
