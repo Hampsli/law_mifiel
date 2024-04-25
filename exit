@@ -1,0 +1,35 @@
+[33mcommit 121dcdf5465bdec7ebdac4c1a7d36f5b1d18a631[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: LilianAw <aguirre.wl@gmail.com>
+Date:   Tue Oct 24 02:14:43 2023 -0600
+
+    adding final step to process
+
+[33mcommit a45d9df1432a44bf16d0b53d47f992fd8a9d6353[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: LilianAw <aguirre.wl@gmail.com>
+Date:   Tue Oct 24 01:59:55 2023 -0600
+
+    adding stable calculate hash with nonce algorithm
+
+[33mcommit dd9f76d756ea503b3faf9ab6b0ec1ad2a72277db[m
+Author: LilianAw <aguirre.wl@gmail.com>
+Date:   Sat Oct 21 00:28:25 2023 -0600
+
+    Adding sha256 nodeJs function and two put request to process and send results
+
+[33mcommit 23b8c7788c5ac7f429a3c382c5d5b4cbae2244ea[m
+Author: LilianAw <aguirre.wl@gmail.com>
+Date:   Wed Oct 18 23:10:12 2023 -0600
+
+    stable node server with javascript vanilla app
+
+[33mcommit a9f717a2951ab9f3fb2b4f4c9c77013820aaa365[m
+Author: liliana aguirre <aguirre.wl@gmail.com>
+Date:   Wed Oct 18 01:47:05 2023 +0000
+
+    Initial Bitbucket Pipelines configuration
+
+[33mcommit 12480e49e95f81d085d5ac396f17e230a31f254c[m
+Author: liliana aguirre <aguirre.wl@gmail.com>
+Date:   Wed Oct 18 01:34:43 2023 +0000
+
+    Initial commit
